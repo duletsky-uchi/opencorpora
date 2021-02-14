@@ -1,4 +1,4 @@
-class Lemmaforms < ActiveRecord::Migration[6.0]
+class CreateLemmaForms < ActiveRecord::Migration[6.0]
   def change
     create_table :lemma_forms, comment: 'Openсorpa, словоформы лемм, <f>' do |t|
       t.references :lemma, comment: 'код леммы'

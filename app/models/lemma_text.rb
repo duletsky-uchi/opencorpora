@@ -8,5 +8,5 @@
 # end
 
 class LemmaText < ApplicationRecord
-  has_many :lemme_grammemes, class_name: 'LemmeGrammeme'
+  has_many :grammemes, as: :grammeme, class_name: 'LemmaGrammeme', source: LemmaGrammeme
 end

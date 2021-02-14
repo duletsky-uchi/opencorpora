@@ -7,6 +7,6 @@
 #   t.index [:opencorpa_lemma_id], name: :index_opencorpa_lforms_on_opencorpa_lemma_id
 # end
 
-class Opencorpa::Lform < ApplicationRecord
+class LemmaForm < ApplicationRecord
   belongs_to :lemma
 end

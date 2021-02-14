@@ -8,6 +8,6 @@
 #   t.index [:grammeme_type, :grammeme_id], name: :index_opencorpa_lgrammemes_on_grammeme_type_and_grammeme_id
 # end
 
-class Opencorpa::Lgrammeme < ApplicationRecord
-  belongs_to :opencorpa_lgrammemes, class_name: 'Opencorpa::Lgrammeme'
+class LemmaGrammeme < ApplicationRecord
+  belongs_to :lemma_grammemes, class_name: 'LemmaGrammeme', polymorphic: true, optional: true
 end
