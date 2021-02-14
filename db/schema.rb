@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2021_02_13_155952) do
     t.string "text", comment: "текст словоформы <t>"
     t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["lemma_id", "text"], name: "index_lemma_forms_on_lemma_id_and_text", unique: true
+    t.index ["lemma_id", "text"], name: "index_lemma_forms_on_lemma_id_and_text"
     t.index ["lemma_id"], name: "index_lemma_forms_on_lemma_id"
   end
 

@@ -6,7 +6,7 @@ class CreateLemmaForms < ActiveRecord::Migration[6.0]
 
       t.timestamps(default: -> { 'CURRENT_TIMESTAMP' })
 
-      t.index %i[lemma_id text], unique: true
+      t.index %i[lemma_id text] # неуникально, несколько форм могут совпадать
     end
   end
 end

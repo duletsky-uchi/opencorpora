@@ -13,9 +13,16 @@ module Import
 
     lemma = Lemma.create lemma_id: xlemma['id'].to_i, rev: xlemma['rev'].to_i
     xlemma.xpath('l').each do |xl|
-      ltext = LemmaText.create lemma_id: lemma.id, text: xl['t']
+      ltext = LemmaText.create lemma: lemma, text: xl['t']
       xl.xpath('g').each do |xg|
         lgrammeme = LemmaGrammeme.create grammeme_type: ltext.class.name, grammeme_id: ltext.id, v: xg['v']
+      end
+    end
+
+    xlemma.xpath('f').each do |xf|
+      lform = LemmaForm.create lemma: lemma, text: xf['t']
+      xf.xpath('g').each do |xg|
+        lgrammeme = LemmaGrammeme.create grammeme_type: lform.class.name, grammeme_id: lform.id, v: xg['v']
       end
     end
   end

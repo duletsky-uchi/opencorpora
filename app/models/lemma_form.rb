@@ -9,4 +9,5 @@
 
 class LemmaForm < ApplicationRecord
   belongs_to :lemma
+  has_many :grammemes, as: :grammeme, class_name: 'LemmaForm', source: LemmaGrammeme
 end
