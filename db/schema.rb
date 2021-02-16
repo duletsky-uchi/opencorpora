@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_16_155882) do
+ActiveRecord::Schema.define(version: 2021_02_16_220940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,16 @@ ActiveRecord::Schema.define(version: 2021_02_16_155882) do
     t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
+  create_table "links", force: :cascade do |t|
+    t.bigint "lemma_from_id", null: false
+    t.bigint "lemma_to_id", null: false
+    t.string "typ"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lemma_from_id"], name: "index_links_on_lemma_from_id"
+    t.index ["lemma_to_id"], name: "index_links_on_lemma_to_id"
+  end
+
   create_table "restrictions", comment: "Ограничения на совместное употребление лемм, <rest>", force: :cascade do |t|
     t.string "typ", null: false, comment: "тип ограничения - maybe"
     t.boolean "auto", default: true, null: false, comment: "авто - 0"
@@ -80,4 +90,6 @@ ActiveRecord::Schema.define(version: 2021_02_16_155882) do
     t.index ["left_grammeme_id", "right_grammeme_id"], name: "index_restrictions_on_left_grammeme_id_and_right_grammeme_id"
   end
 
+  add_foreign_key "links", "lemmas", column: "lemma_from_id"
+  add_foreign_key "links", "lemmas", column: "lemma_to_id"
 end

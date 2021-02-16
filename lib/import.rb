@@ -6,6 +6,7 @@ module Import
     xml = Nokogiri::XML(open("#{Rails.root}/spec/fixtures/dic.xml"))
     # xml = Nokogiri::XML(open('/Users/dog/Downloads/dict.opcorpora.xml'))
 
+    Link.delete_all
     Lemma.delete_all
     LemmaText.delete_all
     LemmaForm.delete_all
@@ -22,13 +23,13 @@ module Import
     restrictions = xml.xpath('//dictionary//restrictions/restr').map do |xml_restriction|
       left = xml_restriction.css('left').first
       right = xml_restriction.css('right').first
-      Restriction.new( typ: xml_restriction['type'],
+      Restriction.new(typ: xml_restriction['type'],
                       auto: !!!xml_restriction['auto'],
                       left_type: left['type'],
                       left_grammeme: Grammeme.find_by(name: left['type']),
                       right_type: right['type'],
                       right_grammeme: Grammeme.find_by(name: right['type']))
-    # rescue binding.pry
+      # rescue binding.pry
     end
     Restriction.import restrictions, on_duplicate_key_ignore: true
 
@@ -48,15 +49,20 @@ module Import
     link_types = xml.xpath('//dictionary//link_types/type').map do |xml_link_type|
       LinkType.new id: xml_link_type['id'].to_i,
                    name: xml_link_type.text
-      end
+    end
     LinkType.import link_types, on_duplicate_key_ignore: true
 
-    # todo: links
+    links = xml.xpath('//dictionary//links/link').map do |xml_link|
+      Link.new id: xml_link['id'].to_i,
+               lemma_from: Lemma.find_by(lemma_id: xml_link['from']),
+               lemma_to: Lemma.find_by(lemma_id: xml_link['to']),
+               typ: xml_link['type']
+    end
+    Link.import links, on_duplicate_key_ignore: true
   end
 
   private
 
-  # todo: вставлять не v, а ссылки на grammeme => смена схемы таблицыъ
   def self.add_grammeme(lemma_text, xg)
     LemmaGrammeme.new kind_type: lemma_text.class.name,
                       kind_id: lemma_text.id,
