@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_16_155802) do
+ActiveRecord::Schema.define(version: 2021_02_16_155852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,18 @@ ActiveRecord::Schema.define(version: 2021_02_16_155802) do
     t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["id", "rev"], name: "index_lemmas_on_id_and_rev", unique: true
+  end
+
+  create_table "restrictions", comment: "Ограничения на совместное употребление лемм, <rest>", force: :cascade do |t|
+    t.string "typ", null: false, comment: "тип ограничения - maybe"
+    t.boolean "auto", default: true, null: false, comment: "авто - 0"
+    t.string "left_type", null: false, comment: "тип леммы слева - lemma"
+    t.string "left_grammeme_id", null: false, comment: "грамема слева - NOUN"
+    t.string "right_type", null: false, comment: "тип леммы справа - lemma"
+    t.string "right_grammeme_id", null: false, comment: "грамема справа - ANim"
+    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["left_grammeme_id", "right_grammeme_id"], name: "index_restrictions_on_left_grammeme_id_and_right_grammeme_id"
   end
 
 end

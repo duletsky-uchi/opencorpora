@@ -3,8 +3,8 @@ module Import
 
   # фикс ошибки первичного ключа
   def self.call
-    # xml = Nokogiri::XML(open("#{Rails.root}/spec/fixtures/dic.xml"))
-    xml = Nokogiri::XML(open('/Users/dog/Downloads/dict.opcorpora.xml'))
+    xml = Nokogiri::XML(open("#{Rails.root}/spec/fixtures/dic.xml"))
+    # xml = Nokogiri::XML(open('/Users/dog/Downloads/dict.opcorpora.xml'))
 
     Lemma.delete_all
     LemmaText.delete_all
@@ -18,6 +18,20 @@ module Import
                    parent: xml_grammeme['parent']
     end
     Grammeme.import grammemes, on_duplicate_key_ignore: true
+
+    restrictions = xml.xpath('//dictionary//restrictions/restr').map do |xml_restriction|
+      left = xml_restriction.css('left').first
+      right = xml_restriction.css('right').first
+  # binding.pry
+      Restriction.new( typ: xml_restriction['type'],
+                      auto: !!!xml_restriction['auto'],
+                      left_type: left['type'],
+                      left_grammeme: Grammeme.find_by(name: left['type']),
+                      right_type: right['type'],
+                      right_grammeme: Grammeme.find_by(name: right['type']))
+    # rescue binding.pry
+    end
+    Restriction.import restrictions, on_duplicate_key_ignore: true
 
     # todo: restrictions
 
