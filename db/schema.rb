@@ -63,11 +63,9 @@ ActiveRecord::Schema.define(version: 2021_02_16_155882) do
   end
 
   create_table "link_types", comment: "типы связей, <link_types><type>", force: :cascade do |t|
-    t.integer "link_type_id", null: false, comment: "тип ограничения - maybe"
     t.string "name", default: "t", null: false, comment: "название связи - NAME-PATR"
     t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["link_type_id"], name: "index_link_types_on_link_type_id", unique: true
   end
 
   create_table "restrictions", comment: "Ограничения на совместное употребление лемм, <rest>", force: :cascade do |t|

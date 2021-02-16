@@ -46,12 +46,12 @@ module Import
     end
 
     link_types = xml.xpath('//dictionary//link_types/type').map do |xml_link_type|
-      LinkType.new link_type_id: xml_link_type['id'].to_i,
+      LinkType.new id: xml_link_type['id'].to_i,
                    name: xml_link_type.text
       end
-    binding.pry
     LinkType.import link_types, on_duplicate_key_ignore: true
 
+    # todo: links
   end
 
   private
