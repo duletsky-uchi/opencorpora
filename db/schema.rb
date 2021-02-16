@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_13_155952) do
+ActiveRecord::Schema.define(version: 2021_02_16_155802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "grammemes", comment: "Openсorpa, граммемы, <grammeme>", force: :cascade do |t|
+    t.string "name", null: false, comment: "название грамемы - neut"
+    t.string "parent", null: false, comment: "родительская грамема - GNdr"
+    t.string "alias", null: false, comment: "краткое обозначение - ср"
+    t.string "description", null: false, comment: "описание - средний род"
+    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["name"], name: "index_grammemes_on_name", unique: true
+  end
 
   create_table "lemma_forms", comment: "Openсorpa, словоформы лемм, <f>", force: :cascade do |t|
     t.bigint "lemma_id", comment: "код леммы"
@@ -25,13 +35,14 @@ ActiveRecord::Schema.define(version: 2021_02_13_155952) do
   end
 
   create_table "lemma_grammemes", comment: "Openсorpa, граммемы леммы, <g>", force: :cascade do |t|
-    t.string "grammeme_type"
-    t.bigint "grammeme_id", comment: "грамема"
-    t.string "v", null: false, comment: "текст словоформы"
+    t.string "kind_type"
+    t.bigint "kind_id", comment: "тип грамемы: text, form"
+    t.bigint "grammeme_id", null: false, comment: "ссылка на грамему"
     t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["grammeme_id", "v"], name: "index_lemma_grammemes_on_grammeme_id_and_v", unique: true
-    t.index ["grammeme_type", "grammeme_id"], name: "index_lemma_grammemes_on_grammeme_type_and_grammeme_id"
+    t.index ["grammeme_id"], name: "index_lemma_grammemes_on_grammeme_id"
+    t.index ["kind_type", "kind_id", "grammeme_id"], name: "index_lemma_grammemes_on_kind_type_and_kind_id_and_grammeme_id"
+    t.index ["kind_type", "kind_id"], name: "index_lemma_grammemes_on_kind_type_and_kind_id"
   end
 
   create_table "lemma_texts", comment: "Openсorpa, тексты лемм, <l>", force: :cascade do |t|

@@ -9,5 +9,5 @@
 
 class LemmaText < ApplicationRecord
   belongs_to :lemma
-  has_many :grammemes, as: :grammeme, class_name: 'LemmaGrammeme', source: LemmaGrammeme
+  has_many :grammemes, as: :kind, class_name: 'LemmaGrammeme', source: LemmaGrammeme
 end
