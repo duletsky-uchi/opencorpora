@@ -22,7 +22,6 @@ module Import
     restrictions = xml.xpath('//dictionary//restrictions/restr').map do |xml_restriction|
       left = xml_restriction.css('left').first
       right = xml_restriction.css('right').first
-  # binding.pry
       Restriction.new( typ: xml_restriction['type'],
                       auto: !!!xml_restriction['auto'],
                       left_type: left['type'],
@@ -32,8 +31,6 @@ module Import
     # rescue binding.pry
     end
     Restriction.import restrictions, on_duplicate_key_ignore: true
-
-    # todo: restrictions
 
     xml.xpath('//dictionary//lemmata/lemma').each do |xml_lemma|
       lemma = Lemma.create lemma_id: xml_lemma['id'].to_i, rev: xml_lemma['rev'].to_i
@@ -47,6 +44,14 @@ module Import
         LemmaGrammeme.import xf.xpath('g').map { |xg| add_grammeme(lemma_form, xg) }
       end
     end
+
+    link_types = xml.xpath('//dictionary//link_types/type').map do |xml_link_type|
+      LinkType.new link_type_id: xml_link_type['id'].to_i,
+                   name: xml_link_type.text
+      end
+    binding.pry
+    LinkType.import link_types, on_duplicate_key_ignore: true
+
   end
 
   private

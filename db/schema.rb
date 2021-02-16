@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_16_155852) do
+ActiveRecord::Schema.define(version: 2021_02_16_155882) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,14 @@ ActiveRecord::Schema.define(version: 2021_02_16_155852) do
     t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["id", "rev"], name: "index_lemmas_on_id_and_rev", unique: true
+  end
+
+  create_table "link_types", comment: "типы связей, <link_types><type>", force: :cascade do |t|
+    t.integer "link_type_id", null: false, comment: "тип ограничения - maybe"
+    t.string "name", default: "t", null: false, comment: "название связи - NAME-PATR"
+    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["link_type_id"], name: "index_link_types_on_link_type_id", unique: true
   end
 
   create_table "restrictions", comment: "Ограничения на совместное употребление лемм, <rest>", force: :cascade do |t|
