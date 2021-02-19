@@ -7,6 +7,8 @@ module Import
     # xml = Nokogiri::XML(open('/Users/dog/Downloads/dict.opcorpora.xml'))
 
     Link.delete_all
+    LinkType.delete_all
+    Restriction.delete_all
     Lemma.delete_all
     LemmaText.delete_all
     LemmaForm.delete_all
@@ -18,7 +20,9 @@ module Import
                    description: xml_grammeme.css('description').text,
                    parent: xml_grammeme['parent']
     end
-    Grammeme.import grammemes, on_duplicate_key_ignore: true
+    @grammemes = Grammeme.import grammemes,
+                                 on_duplicate_key_update: { conflict_target: [:name] },
+                                 returning: [:id, :name]
 
     restrictions = xml.xpath('//dictionary//restrictions/restr').map do |xml_restriction|
       left = xml_restriction.css('left').first
@@ -29,11 +33,10 @@ module Import
                       left_grammeme: Grammeme.find_by(name: left['type']),
                       right_type: right['type'],
                       right_grammeme: Grammeme.find_by(name: right['type']))
-      # rescue binding.pry
     end
     Restriction.import restrictions, on_duplicate_key_ignore: true
 
-    xml.xpath('//dictionary//lemmata/lemma').each do |xml_lemma|
+    xml.xpath('//dictionary//lemmata/lemma').each_with_index do |xml_lemma, index|
       lemma = Lemma.create lemma_id: xml_lemma['id'].to_i, rev: xml_lemma['rev'].to_i
       xml_lemma.xpath('l').each do |xl|
         lemma_text = LemmaText.create lemma: lemma, text: xl['t']
@@ -42,8 +45,10 @@ module Import
 
       xml_lemma.xpath('f').each do |xf|
         lemma_form = LemmaForm.create lemma: lemma, text: xf['t']
+        # binding.pry if xf['t'] == 'бежала'
         LemmaGrammeme.import xf.xpath('g').map { |xg| add_grammeme(lemma_form, xg) }
       end
+      puts "Lemma index #{index}" if (index / 100).zero?
     end
 
     link_types = xml.xpath('//dictionary//link_types/type').map do |xml_link_type|
@@ -66,6 +71,14 @@ module Import
   def self.add_grammeme(lemma_text, xg)
     LemmaGrammeme.new kind_type: lemma_text.class.name,
                       kind_id: lemma_text.id,
-                      grammeme_id: Grammeme.find_by(name: xg['v'])&.id
+                      # grammeme_id: Grammeme.find_by(name: xg['v'])&.id
+                      grammeme_id: grammeme_find(xg['v'])
+  end
+
+  def self.grammeme_find(verbose)
+    out = @grammemes.results.find { |id, name| name == verbose }
+    return unless out
+
+    out[0]
   end
 end

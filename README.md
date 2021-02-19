@@ -7,7 +7,8 @@ http://opencorpora.org/dict.php
 
 ## Разбор
 
-Выполняется по 
+Выполняется по
+
 ```ruby
 Import.call 
 ```
@@ -28,4 +29,19 @@ xlemma.xpath('l').each do |xl|
     LemmaGrammeme.create grammeme_type: ltext.class.name, grammeme_id: ltext.id, v: xg['v']
   end
 end
+```
+
+## Запросы
+
+```postgresql
+-- поиск определения слова (грамем)
+SELECT f.lemma_id, g.name, g.alias, g.description
+FROM lemma_forms f,
+     lemma_grammemes lg,
+     grammemes g
+WHERE f.text = 'бежала'
+  AND lg.kind_type = 'LemmaForm'
+  AND lg.kind_id = f.id
+  AND lg.grammeme_id = g.id
+GROUP BY f.lemma_id, g.name, g.alias, g.description
 ```
