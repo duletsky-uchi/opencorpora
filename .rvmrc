@@ -1,0 +1,4 @@
+rvm use ruby-2.7.1@opencorpora
+#export DEFAULT_DATABASE_URL="postgres://postgres:postgres@localhost/b2t_api"
+# отключение предупреждений 2.7.x, из-за невозможности обновить gems
+nvm use 10.13

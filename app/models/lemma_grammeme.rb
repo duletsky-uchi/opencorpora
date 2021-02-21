@@ -9,6 +9,6 @@
 # end
 
 class LemmaGrammeme < ApplicationRecord
-  belongs_to :lemma_grammemes, class_name: 'LemmaGrammeme', polymorphic: true, optional: true
+  belongs_to :kind, class_name: 'LemmaGrammeme', polymorphic: true, optional: true
   has_many :grammemes
 end

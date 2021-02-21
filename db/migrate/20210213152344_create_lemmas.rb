@@ -7,6 +7,7 @@ class CreateLemmas < ActiveRecord::Migration[6.0]
       t.timestamps(default: -> { 'CURRENT_TIMESTAMP' })
 
       t.index %i[id rev], unique: true
+      t.index %i[lemma_id rev], unique: true
     end
   end
 end

@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2021_02_16_220940) do
     t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["id", "rev"], name: "index_lemmas_on_id_and_rev", unique: true
+    t.index ["lemma_id", "rev"], name: "index_lemmas_on_lemma_id_and_rev", unique: true
   end
 
   create_table "link_types", comment: "типы связей, <link_types><type>", force: :cascade do |t|

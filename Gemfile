@@ -32,6 +32,38 @@ group :development, :test do
 
   gem 'pry', '~> 0.13.1'
   gem 'pry-byebug', '~> 3.9.0'
+
+  gem 'bundler-audit', '~> 0.7.0'
+
+  gem 'rubocop', '~> 1.00.0', require: false
+  gem 'awesome_print'
+  gem 'bunny-mock'
+  gem 'colorize'
+
+  gem 'fasterer'
+  gem 'json-schema'
+  gem 'json_matchers', '0.7.0'
+  gem 'pry', '~> 0.13.1'
+  gem 'pry-byebug', '~> 3.9.0'
+  gem 'rspec-its'
+  gem 'rspec-json_expectations' # частичное сопоставление include_json
+  #gem 'rspec-rails'
+  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails', branch: '4-0-maintenance'
+  gem 'rubocop-rspec'
+  # gem 'selenium-webdriver'
+
+  gem 'rubycritic', '~> 4.5'
+
+  gem 'spring'
+  gem 'spring-commands-rspec'
+
+  gem 'guard', '~> 2.16.2' # автозапуск тестов
+  gem 'guard-bundler'
+  gem 'guard-rails', require: false
+  gem 'guard-rspec', require: false
+  gem 'simplecov', require: false # отчет по покрытию тестами
+
+  gem 'ruby_jard' # отладчик
 end
 
 group :development do
@@ -54,5 +86,5 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'pg', "~> 1.0"
-gem "activerecord-import" # batch insert
+gem 'pg', '~> 1.0'
+gem 'activerecord-import' # batch insert

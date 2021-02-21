@@ -3,8 +3,8 @@ module Import
 
   # фикс ошибки первичного ключа
   def self.call
-    xml = Nokogiri::XML(open("#{Rails.root}/spec/fixtures/dic.xml"))
-    # xml = Nokogiri::XML(open('/Users/dog/Downloads/dict.opcorpora.xml'))
+    # xml = Nokogiri::XML(open("#{Rails.root}/spec/fixtures/dic.xml"))
+    xml = Nokogiri::XML(open('/Users/dog/Downloads/dict.opcorpora.xml'))
 
     Link.delete_all
     LinkType.delete_all
@@ -38,16 +38,35 @@ module Import
 
     xml.xpath('//dictionary//lemmata/lemma').each_with_index do |xml_lemma, index|
       lemma = Lemma.create lemma_id: xml_lemma['id'].to_i, rev: xml_lemma['rev'].to_i
-      xml_lemma.xpath('l').each do |xl|
-        lemma_text = LemmaText.create lemma: lemma, text: xl['t']
-        LemmaGrammeme.import xl.xpath('g').map { |xg| add_grammeme(lemma_text, xg) }
-      end
 
-      xml_lemma.xpath('f').each do |xf|
-        lemma_form = LemmaForm.create lemma: lemma, text: xf['t']
-        # binding.pry if xf['t'] == 'бежала'
-        LemmaGrammeme.import xf.xpath('g').map { |xg| add_grammeme(lemma_form, xg) }
+      lemma_texts = []
+      xml_lemma.xpath('l').each do |xl|
+        lemma_text = LemmaText.new lemma: lemma, text: xl['t']
+        # LemmaGrammeme.import xl.xpath('g').map { |xg| add_grammeme(lemma_text, xg) }
+        xl.xpath('g').each do |xg|
+          lemma_text.grammemes.build kind_type: lemma_text.class.name,
+                                     kind_id: lemma_text.id,
+                                     grammeme_id: grammeme_find(xg['v'])
+        end
+        lemma_texts << lemma_text
+        # LemmaText.import lemma_text, recursive: true
       end
+      LemmaText.import lemma_texts, recursive: true
+
+      lemma_forms = []
+      xml_lemma.xpath('f').each do |xf|
+        lemma_form = LemmaForm.new lemma: lemma, text: xf['t']
+        # binding.pry if xf['t'] == 'бежала'
+        # LemmaGrammeme.import xf.xpath('g').map { |xg| add_grammeme(lemma_form, xg) }
+        xf.xpath('g').each do |xg|
+          lemma_form.grammemes.build kind_type: lemma_form.class.name,
+                                     kind_id: lemma_form.id,
+                                     grammeme_id: grammeme_find(xg['v'])
+        end
+        lemma_forms << lemma_form
+      end
+      LemmaForm.import lemma_forms, recursive: true, on_duplicate_key_ignore: true
+
       puts "Lemma index #{index}" if (index / 100).zero?
     end
 
