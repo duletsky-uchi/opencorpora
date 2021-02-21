@@ -1,4 +1,4 @@
-# доп методы работы с ActiveRecord
+# Импорт xml c http://opencorpora.org/dict.php
 module Import
 
   # фикс ошибки первичного ключа
@@ -69,7 +69,7 @@ module Import
                        on_duplicate_key_ignore: true,
                        timestamps: false
 
-      puts "Lemma index #{index}" if (index / 100).zero?
+      puts "Lemma index #{index}" if (index % 100).zero?
     end
 
     link_types = xml.xpath('//dictionary//link_types/type').map do |xml_link_type|
