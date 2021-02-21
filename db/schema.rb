@@ -20,16 +20,16 @@ ActiveRecord::Schema.define(version: 2021_02_16_220940) do
     t.string "parent", null: false, comment: "родительская грамема - GNdr"
     t.string "alias", null: false, comment: "краткое обозначение - ср"
     t.string "description", null: false, comment: "описание - средний род"
-    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.index ["name"], name: "index_grammemes_on_name", unique: true
   end
 
   create_table "lemma_forms", comment: "Openсorpa, словоформы лемм, <f>", force: :cascade do |t|
     t.bigint "lemma_id", comment: "код леммы"
     t.string "text", comment: "текст словоформы <t>"
-    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: 6, default: -> { "now()" }
+    t.datetime "updated_at", precision: 6, default: -> { "now()" }
     t.index ["lemma_id", "text"], name: "index_lemma_forms_on_lemma_id_and_text"
     t.index ["lemma_id"], name: "index_lemma_forms_on_lemma_id"
   end
@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 2021_02_16_220940) do
     t.string "kind_type"
     t.bigint "kind_id", comment: "тип грамемы: text, form"
     t.bigint "grammeme_id", null: false, comment: "ссылка на грамему"
-    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.index ["grammeme_id"], name: "index_lemma_grammemes_on_grammeme_id"
     t.index ["kind_type", "kind_id", "grammeme_id"], name: "index_lemma_grammemes_on_kind_type_and_kind_id_and_grammeme_id"
     t.index ["kind_type", "kind_id"], name: "index_lemma_grammemes_on_kind_type_and_kind_id"
@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 2021_02_16_220940) do
   create_table "lemma_texts", comment: "Openсorpa, тексты лемм, <l>", force: :cascade do |t|
     t.bigint "lemma_id", comment: "код леммы"
     t.string "text", comment: "текст словоформы <t>"
-    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: 6, default: -> { "now()" }
+    t.datetime "updated_at", precision: 6, default: -> { "now()" }
     t.index ["lemma_id", "text"], name: "index_lemma_texts_on_lemma_id_and_text", unique: true
     t.index ["lemma_id"], name: "index_lemma_texts_on_lemma_id"
   end
@@ -57,24 +57,24 @@ ActiveRecord::Schema.define(version: 2021_02_16_220940) do
   create_table "lemmas", comment: "Openсorpa леммы", force: :cascade do |t|
     t.bigint "lemma_id", null: false, comment: "айди леммы"
     t.integer "rev", null: false, comment: "ревизия описания леммы"
-    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.index ["id", "rev"], name: "index_lemmas_on_id_and_rev", unique: true
     t.index ["lemma_id", "rev"], name: "index_lemmas_on_lemma_id_and_rev", unique: true
   end
 
   create_table "link_types", comment: "типы связей, <link_types><type>", force: :cascade do |t|
     t.string "name", default: "t", null: false, comment: "название связи - NAME-PATR"
-    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
   end
 
   create_table "links", force: :cascade do |t|
     t.bigint "lemma_from_id", null: false
     t.bigint "lemma_to_id", null: false
     t.string "typ"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.index ["lemma_from_id"], name: "index_links_on_lemma_from_id"
     t.index ["lemma_to_id"], name: "index_links_on_lemma_to_id"
   end
@@ -86,8 +86,8 @@ ActiveRecord::Schema.define(version: 2021_02_16_220940) do
     t.string "left_grammeme_id", null: false, comment: "грамема слева - NOUN"
     t.string "right_type", null: false, comment: "тип леммы справа - lemma"
     t.string "right_grammeme_id", null: false, comment: "грамема справа - ANim"
-    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.index ["left_grammeme_id", "right_grammeme_id"], name: "index_restrictions_on_left_grammeme_id_and_right_grammeme_id"
   end
 

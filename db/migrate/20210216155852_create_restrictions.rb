@@ -10,7 +10,8 @@ class CreateRestrictions < ActiveRecord::Migration[6.0]
 
       t.index %i[left_grammeme_id right_grammeme_id]
 
-      t.timestamps(default: -> { 'CURRENT_TIMESTAMP' })
+      # t.timestamps(default: -> { 'CURRENT_TIMESTAMP' })
+      t.timestamps(null: true)
     end
   end
 end

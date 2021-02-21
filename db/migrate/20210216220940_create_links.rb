@@ -5,7 +5,8 @@ class CreateLinks < ActiveRecord::Migration[6.0]
       t.references :lemma_to, null: false, foreign_key: {to_table: :lemmas}
       t.string :typ
 
-      t.timestamps
+      # t.timestamps
+      t.timestamps(null: true)
     end
   end
 end

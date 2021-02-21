@@ -8,7 +8,8 @@ class CreateGrammemes < ActiveRecord::Migration[6.0]
 
       t.index %i[name], unique: true
 
-      t.timestamps(default: -> { 'CURRENT_TIMESTAMP' })
+      # t.timestamps(default: -> { 'CURRENT_TIMESTAMP' })
+      t.timestamps(null: true)
     end
   end
 end

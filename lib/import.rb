@@ -2,9 +2,10 @@
 module Import
 
   # фикс ошибки первичного ключа
-  def self.call
+  def self.call(xml_name = "#{Rails.root}/spec/fixtures/dic.xml")
     # xml = Nokogiri::XML(open("#{Rails.root}/spec/fixtures/dic.xml"))
-    xml = Nokogiri::XML(open('/Users/dog/Downloads/dict.opcorpora.xml'))
+    # xml = Nokogiri::XML(open('/Users/dog/Downloads/dict.opcorpora.xml'))
+    xml = Nokogiri::XML(open(xml_name))
 
     Link.delete_all
     LinkType.delete_all
@@ -51,13 +52,11 @@ module Import
         lemma_texts << lemma_text
         # LemmaText.import lemma_text, recursive: true
       end
-      LemmaText.import lemma_texts, recursive: true
+      LemmaText.import lemma_texts, recursive: true, timestamps: false
 
       lemma_forms = []
       xml_lemma.xpath('f').each do |xf|
         lemma_form = LemmaForm.new lemma: lemma, text: xf['t']
-        # binding.pry if xf['t'] == 'бежала'
-        # LemmaGrammeme.import xf.xpath('g').map { |xg| add_grammeme(lemma_form, xg) }
         xf.xpath('g').each do |xg|
           lemma_form.grammemes.build kind_type: lemma_form.class.name,
                                      kind_id: lemma_form.id,
@@ -65,7 +64,10 @@ module Import
         end
         lemma_forms << lemma_form
       end
-      LemmaForm.import lemma_forms, recursive: true, on_duplicate_key_ignore: true
+      LemmaForm.import lemma_forms,
+                       recursive: true,
+                       on_duplicate_key_ignore: true,
+                       timestamps: false
 
       puts "Lemma index #{index}" if (index / 100).zero?
     end
@@ -82,7 +84,14 @@ module Import
                lemma_to: Lemma.find_by(lemma_id: xml_link['to']),
                typ: xml_link['type']
     end
-    Link.import links, on_duplicate_key_ignore: true
+    Link.import links #, on_duplicate_key_ignore: true
+
+    LemmaForm.where(created_at: nil).update_all created_at: Time.zone.now
+    LemmaForm.where(updated_at: nil).update_all updated_at: Time.zone.now
+    LemmaText.where(created_at: nil).update_all created_at: Time.zone.now
+    LemmaText.where(updated_at: nil).update_all updated_at: Time.zone.now
+    LemmaGrammeme.where(created_at: nil).update_all created_at: Time.zone.now
+    LemmaGrammeme.where(updated_at: nil).update_all updated_at: Time.zone.now
   end
 
   private

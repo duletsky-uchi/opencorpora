@@ -5,7 +5,7 @@ http://opencorpora.org/dict.php
 
 Импорт в Postgres
 
-## Разбор
+## Импорт
 
 Выполняется по
 

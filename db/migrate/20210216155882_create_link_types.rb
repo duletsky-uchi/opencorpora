@@ -3,7 +3,8 @@ class CreateLinkTypes < ActiveRecord::Migration[6.0]
     create_table :link_types, comment: 'типы связей, <link_types><type>' do |t|
       t.string :name, comment: 'название связи - NAME-PATR', null: false, default: true
 
-      t.timestamps(default: -> { 'CURRENT_TIMESTAMP' })
+      # t.timestamps(default: -> { 'CURRENT_TIMESTAMP' })
+      t.timestamps(null: true)
     end
   end
 end
