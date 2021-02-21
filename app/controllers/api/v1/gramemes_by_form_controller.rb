@@ -9,7 +9,7 @@ class Api::V1::GramemesByFormController < ActionController::Base
   #  curl http://localhost:3000/api/v1/gramemes_by_form/бежала
   # отдаёт
   #  {"grammemes":[{"lemma_id":237957,"name":"femn","alias":"жр","description":"женский род"},{"lemma_id":237957,"name":"sing","alias":"ед","description":"единственное число"},{"lemma_id":237957,"name":"past","alias":"прош","description":"прошедшее время"},{"lemma_id":237957,"name":"indc","alias":"изъяв","description":"изъявительное наклонение"},{"lemma_id":237962,"name":"femn","alias":"жр","description":"женский род"},{"lemma_id":237962,"name":"sing","alias":"ед","description":"единственное число"},{"lemma_id":237962,"name":"past","alias":"прош","description":"прошедшее время"},{"lemma_id":237962,"name":"indc","alias":"изъяв","description":"изъявительное наклонение"}]}%
-  def index
+  def show
     sql = Lemma.send(:sanitize_sql_array, [sql_template, params[:form]])
     out = ActiveRecord::Base.connection().select_all(sql)
 
