@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :ping, only: :index
+      get 'gramemes_by_form/:form' => 'gramemes_by_form#index'
     end
   end
 end

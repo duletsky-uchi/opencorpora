@@ -13,6 +13,11 @@ http://opencorpora.org/dict.php
 Import.call 
 ```
 
+или 
+```shell
+spring rake import:xml\[/Users/dog/Downloads/dict.opcorpora.xml\]
+```
+
 ```ruby
 xml = Nokogiri::XML(open("#{Rails.root}/spec/fixtures/dic.xml"))
 xlemma = xml.xpath('//dictionary//lemmata/lemma').first
@@ -44,4 +49,17 @@ WHERE f.text = 'бежала'
   AND lg.kind_id = f.id
   AND lg.grammeme_id = g.id
 GROUP BY f.lemma_id, g.name, g.alias, g.description
+```
+
+```postgresql
+-- получить грамемы словоформы
+SELECT f.lemma_id, g.name, g.alias, g.description
+FROM lemma_forms f,
+     lemma_grammemes lg,
+     grammemes g
+WHERE f.text = 'бежала'
+  AND lg.kind_type = 'LemmaForm'
+  AND lg.kind_id = f.id
+  AND lg.grammeme_id = g.id 
+group by f.lemma_id, g.name, g.alias, g.description
 ```
