@@ -64,6 +64,9 @@ group :development, :test do
   gem 'simplecov', require: false # отчет по покрытию тестами
 
   gem 'ruby_jard' # отладчик
+
+  gem 'factory_bot_rails'# в проде Sessions засеваются им
+  gem 'ffaker'
 end
 
 group :development do
@@ -81,6 +84,8 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+
+  gem 'webmock' # для моканья запросов к урлам
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
