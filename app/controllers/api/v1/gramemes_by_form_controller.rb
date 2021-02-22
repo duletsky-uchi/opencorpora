@@ -1,7 +1,7 @@
 ##
 # = Получить грамемы словоформы
 #
-class Api::V1::GramemesByFormController < ActionController::Base
+class Api::V1::GramemesByFormController < Api::V1::BaseController
 
   # = Получить грамемы словоформы
   # Внимание - грамемы могут относится к нескольким леммам
@@ -10,6 +10,8 @@ class Api::V1::GramemesByFormController < ActionController::Base
   # отдаёт
   #  {"grammemes":[{"lemma_id":237957,"name":"femn","alias":"жр","description":"женский род"},{"lemma_id":237957,"name":"sing","alias":"ед","description":"единственное число"},{"lemma_id":237957,"name":"past","alias":"прош","description":"прошедшее время"},{"lemma_id":237957,"name":"indc","alias":"изъяв","description":"изъявительное наклонение"},{"lemma_id":237962,"name":"femn","alias":"жр","description":"женский род"},{"lemma_id":237962,"name":"sing","alias":"ед","description":"единственное число"},{"lemma_id":237962,"name":"past","alias":"прош","description":"прошедшее время"},{"lemma_id":237962,"name":"indc","alias":"изъяв","description":"изъявительное наклонение"}]}%
   def show
+    return err(:empty_form) if params[:form].empty?
+
     sql = Lemma.send(:sanitize_sql_array, [sql_template, params[:form]])
     out = ActiveRecord::Base.connection().select_all(sql)
 

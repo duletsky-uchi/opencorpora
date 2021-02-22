@@ -1,0 +1,68 @@
+inherit_from: .rubocop_todo.yml
+
+# Code style checking for RSpec files
+# https://github.com/rubocop-hq/rubocop-rspec
+require:
+  - rubocop-rspec
+
+#Rails:
+#  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/AsciiComments:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+#Metrics/LineLength:
+#  Max: 120
+AllCops:
+  Include:
+    - app/components/**/*.rb
+    - app/concerns/**/*.rb
+    - app/models/**/*.rb
+    - app/policies/**/*.rb
+    - app/controllers/api/**/*.rb
+    - app/resources/**/*.rb
+  Exclude:
+    - bin/**/*
+    - app/**/*.rbi
+    - .git/**/*
+    - vendor/bundle/**/*
+    - app/components/olymp/**/*
+Lint/UnusedBlockArgument:
+  Enabled: false
+Lint/UnusedMethodArgument:
+  Enabled: false
+Lint/UnderscorePrefixedVariableName:
+  Enabled: false
+Lint/AssignmentInCondition:
+  Enabled: false
+Lint/RedundantSplatExpansion:
+  Enabled: false
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
+Lint/Loop:
+  Enabled: false
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+#Layout/MultilineBlockLayout:
+#  Enabled: false
+#Layout/MultilineMethodCallIdentation:
+#  Enabled: false
+Metrics/BlockLength:
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'spec/**/*.rb'
+RSpec/ExampleLength:
+  Max: 20
+#RSpec/MultipleMemoizedHelpers:
+#  Max: 7
+Layout/LineLength:
+  Max: 9999
+#Layout/MultilineOperationIndentation:
+#  false
+
+#Sorbet/ForbidSuperclassConstLiteral:
+#  Enabled: false

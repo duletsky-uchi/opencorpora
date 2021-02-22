@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2021_02_16_220940) do
     t.index ["name"], name: "index_grammemes_on_name", unique: true
   end
 
-  create_table "lemma_forms", comment: "Openсorpa, словоформы лемм, <f>", force: :cascade do |t|
+  create_table "lemma_forms", comment: "словоформы лемм, <f>", force: :cascade do |t|
     t.bigint "lemma_id", comment: "код леммы"
     t.string "text", comment: "текст словоформы <t>"
     t.datetime "created_at", precision: 6, default: -> { "now()" }
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2021_02_16_220940) do
     t.index ["kind_type", "kind_id"], name: "index_lemma_grammemes_on_kind_type_and_kind_id"
   end
 
-  create_table "lemma_texts", comment: "Openсorpa, тексты лемм, <l>", force: :cascade do |t|
+  create_table "lemma_texts", comment: "тексты лемм, <l>", force: :cascade do |t|
     t.bigint "lemma_id", comment: "код леммы"
     t.string "text", comment: "текст словоформы <t>"
     t.datetime "created_at", precision: 6, default: -> { "now()" }
