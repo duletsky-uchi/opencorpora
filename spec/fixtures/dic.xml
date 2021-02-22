@@ -579,10 +579,6 @@
   </grammemes>
   <restrictions>
     <restr type="obligatory" auto="0">
-      <left type="lemma"></left>
-      <right type="lemma">POST</right>
-    </restr>
-    <restr type="obligatory" auto="0">
       <left type="lemma">NOUN</left>
       <right type="lemma">ANim</right>
     </restr>

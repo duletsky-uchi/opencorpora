@@ -2,7 +2,7 @@
 module Import
 
   # фикс ошибки первичного ключа
-  def self.call(xml_name = "#{Rails.root}/spec/fixtures/dic.xml")
+  def self.call(xml_name = "#{Rails.root}/spec/fixtures/dic.xml", log: true)
     # xml = Nokogiri::XML(open("#{Rails.root}/spec/fixtures/dic.xml"))
     # xml = Nokogiri::XML(open('/Users/dog/Downloads/dict.opcorpora.xml'))
     xml = Nokogiri::XML(open(xml_name))
@@ -31,9 +31,9 @@ module Import
       Restriction.new(typ: xml_restriction['type'],
                       auto: !!!xml_restriction['auto'],
                       left_type: left['type'],
-                      left_grammeme: Grammeme.find_by(name: left['type']),
+                      left_grammeme: Grammeme.find_by(name: left.text),
                       right_type: right['type'],
-                      right_grammeme: Grammeme.find_by(name: right['type']))
+                      right_grammeme: Grammeme.find_by(name: right.text))
     end
     Restriction.import restrictions, on_duplicate_key_ignore: true
 
@@ -69,7 +69,7 @@ module Import
                        on_duplicate_key_ignore: true,
                        timestamps: false
 
-      puts "Lemma index #{index}" if (index % 100).zero?
+      puts "Lemma index #{index}" if (index % 100).zero? && log
     end
 
     link_types = xml.xpath('//dictionary//link_types/type').map do |xml_link_type|
@@ -92,6 +92,8 @@ module Import
     LemmaText.where(updated_at: nil).update_all updated_at: Time.zone.now
     LemmaGrammeme.where(created_at: nil).update_all created_at: Time.zone.now
     LemmaGrammeme.where(updated_at: nil).update_all updated_at: Time.zone.now
+
+    true
   end
 
   private
