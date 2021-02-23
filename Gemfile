@@ -43,8 +43,6 @@ group :development, :test do
   gem 'fasterer'
   gem 'json-schema'
   gem 'json_matchers', '0.7.0'
-  gem 'pry', '~> 0.13.1'
-  gem 'pry-byebug', '~> 3.9.0'
   gem 'rspec-its'
   gem 'rspec-json_expectations' # частичное сопоставление include_json
   #gem 'rspec-rails'
@@ -54,8 +52,10 @@ group :development, :test do
 
   gem 'rubycritic', '~> 4.5'
 
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-commands-rspec'
+  gem 'spring-watcher-listen', '~> 2.0.0'
 
   gem 'guard', '~> 2.16.2' # автозапуск тестов
   gem 'guard-bundler'
@@ -73,9 +73,6 @@ group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '~> 3.2'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 group :test do

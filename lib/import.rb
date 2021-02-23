@@ -1,12 +1,12 @@
 # Импорт xml c http://opencorpora.org/dict.php
 module Import
 
-  # фикс ошибки первичного ключа
   def self.call(xml_name = "#{Rails.root}/spec/fixtures/dic.xml", log: true)
     # xml = Nokogiri::XML(open("#{Rails.root}/spec/fixtures/dic.xml"))
     # xml = Nokogiri::XML(open('/Users/dog/Downloads/dict.opcorpora.xml'))
     xml = Nokogiri::XML(open(xml_name))
 
+    Grammeme.delete_all
     Link.delete_all
     LinkType.delete_all
     Restriction.delete_all
