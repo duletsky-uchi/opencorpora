@@ -1,30 +1,36 @@
 # Импорт xml c http://opencorpora.org/dict.php
 module ImportReader
 
+  # xml = Nokogiri::XML(open("#{Rails.root}/spec/fixtures/dic.xml"))
+  # xml = Nokogiri::XML(open('/Users/dog/Downloads/dict.opcorpora.xml'))
+  # xml = Nokogiri::XML(open(xml_name))
   def self.call(xml_name = "#{Rails.root}/spec/fixtures/dic.xml", log: true)
-    # xml = Nokogiri::XML(open("#{Rails.root}/spec/fixtures/dic.xml"))
-    # xml = Nokogiri::XML(open('/Users/dog/Downloads/dict.opcorpora.xml'))
-    # xml = Nokogiri::XML(open(xml_name))
 
     delete_all
+    data_import(xml_name) # обязательно после lemmas, т.к. ссылки на них
+    update_stamps
 
+    true
+  end
+
+  private
+
+  def self.data_import(xml_name)
     @grammemes = grammemes(xml_name)
     link_types(xml_name)
     restrictions(xml_name)
     lemmas(xml_name)
-    links(xml_name) # обязательно после lemmas, т.к. ссылки на них
+    links(xml_name)
+  end
 
+  def self.update_stamps
     LemmaForm.where(created_at: nil).update_all created_at: Time.zone.now
     LemmaForm.where(updated_at: nil).update_all updated_at: Time.zone.now
     LemmaText.where(created_at: nil).update_all created_at: Time.zone.now
     LemmaText.where(updated_at: nil).update_all updated_at: Time.zone.now
     LemmaGrammeme.where(created_at: nil).update_all created_at: Time.zone.now
     LemmaGrammeme.where(updated_at: nil).update_all updated_at: Time.zone.now
-
-    true
   end
-
-  private
 
   def self.delete_all
     Grammeme.delete_all
