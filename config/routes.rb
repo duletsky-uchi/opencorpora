@@ -7,7 +7,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :ping, only: :index
       get 'gramemes_by_form/:form' => 'gramemes_by_form#show'
+      get 'gramemes_by_text/:text' => 'gramemes_by_text#show'
       get 'forms_by_gramemes/:grammemes' => 'forms_by_gramemes#show',
+          constraints: { grammemes: /[\w,]+/ } # слово1,слово2
+      get 'lemmas_by_gramemes/:grammemes' => 'lemmas_by_gramemes#show',
           constraints: { grammemes: /[\w,]+/ } # слово1,слово2
     end
   end
