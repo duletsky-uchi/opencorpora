@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :lemma_text do
     lemma
-    text { 'text' }
+    text { Uniqid.id }
   end
 end
