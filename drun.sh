@@ -4,7 +4,7 @@ docker-compose down
 docker-compose build
 docker-compose up -d
 #docker-compose run app rake db:create db:migrate db:seed ar:fix_primary_key RAILS_ENV=production
-docker-compose run app rake db:create db:migrate db:seed RAILS_ENV=production
+docker-compose run app rake db:create db:migrate db:seed import:xml RAILS_ENV=production
 
 URL='http://localhost:3001/api/'
 GREEN='\033[0;32m'
@@ -26,3 +26,4 @@ curl http://localhost:3001/ping.json
 echo -e "\n-------------------"
 
 docker-compose logs -f
+
