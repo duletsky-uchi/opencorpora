@@ -82,7 +82,7 @@ module Import
       Link.new id: xml_link['id'].to_i,
                lemma_from: Lemma.find_by(lemma_id: xml_link['from']),
                lemma_to: Lemma.find_by(lemma_id: xml_link['to']),
-               typ: xml_link['type']
+               type_id: xml_link['type']
     end
     Link.import links #, on_duplicate_key_ignore: true
 

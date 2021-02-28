@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :ping, only: :index
       resources :lemmas, only: :show
+      resources :links, only: :show
+      resources :link_types, only: :show
       resources :lemma_texts, only: :show
       resources :lemma_forms, only: :show
       resources :grammemes, only: :show

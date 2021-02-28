@@ -16,7 +16,7 @@ RSpec.describe ::ImportReader do
       expect(Restriction.count).to eq 385
     }
     it {
-      expect(Link.first.typ).to eq '1'
+      expect(Link.first.type_id).to eq 1
       expect(LinkType.first.name).to eq 'ADJF-ADJS'
       expect(Lemma.first.lemma_id).to eq 1
       expect(Lemma.first.rev).to eq 1

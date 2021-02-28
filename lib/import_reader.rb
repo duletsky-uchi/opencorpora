@@ -23,6 +23,7 @@ module ImportReader
     links(xml_name)
   end
 
+
   def self.update_stamps
     LemmaForm.where(created_at: nil).update_all created_at: Time.zone.now
     LemmaForm.where(updated_at: nil).update_all updated_at: Time.zone.now
@@ -101,12 +102,6 @@ module ImportReader
                     returning: [:id, :name]
   end
 
-  # link_types = xml.xpath('//dictionary//link_types/type').map do |xml_link_type|
-  #   LinkType.new id: xml_link_type['id'].to_i,
-  #                name: xml_link_type.text
-  # end
-  # LinkType.import link_types, on_duplicate_key_ignore: true
-  #
   class LinkTypeNodeHandler < Struct.new(:node)
     def process
       LinkType.new(id: node['id'], name: node.text)
@@ -123,19 +118,12 @@ module ImportReader
     LinkType.import link_types.compact
   end
 
-  # links = xml.xpath('//dictionary//links/link').map do |xml_link|
-  #   Link.new id: xml_link['id'].to_i,
-  #            lemma_from: Lemma.find_by(lemma_id: xml_link['from']),
-  #            lemma_to: Lemma.find_by(lemma_id: xml_link['to']),
-  #            typ: xml_link['type']
-  # end
-  # Link.import links #, on_duplicate_key_ignore: true
   class LinkNodeHandler < Struct.new(:node)
     def process
       Link.new id: node['id'],
                lemma_from: Lemma.find_by(lemma_id: node['from']),
                lemma_to: Lemma.find_by(lemma_id: node['to']),
-               typ: node['type']
+               type_id: node['type'].to_i
     end
   end
 
@@ -145,7 +133,7 @@ module ImportReader
         LinkNodeHandler.new(Nokogiri::XML(node.outer_xml).at('./link')).process
       end
     end
-    Link.import links.compact #, on_duplicate_key_ignore: true
+    Link.import links.compact, on_duplicate_key_ignore: true
   end
 
   def self.restrictions(xml_name)
