@@ -90,3 +90,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'pg', '~> 1.0'
 gem 'activerecord-import' # batch insert
+
+gem 'rack-cors', require: 'rack/cors' # работа с CORS

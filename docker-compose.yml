@@ -1,0 +1,37 @@
+# Это локальный запуск для тестирования фронтов
+#
+# после запуска
+#  docker-compose down && docker-compose build && docker-compose up
+#  docker-compose run app rake db:create RAILS_ENV=production
+#  docker-compose run app rake db:migrate db:seed RAILS_ENV=production
+# проверка
+#  curl http://127.0.0.1:3001/activities/api/v1/subjects
+#   {"errors":[{"title":"forbidden","code":"403","status":"403"}]}
+#  curl -H "Uchi-User-Type: Teacher" -H "Uchi-User-Id: 12" http://localhost:3001/activities/api/v1/ping
+#   {ping: pong}
+version: '3'
+services:
+  db:
+    image: postgres:11.4
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=b2t-api
+    volumes:
+      - db:/var/lib/postgresql/data11
+      - ./tmp/dumps/development/db:/docker-entrypoint-initdb.d:ro
+  app:
+    environment:
+      - DEFAULT_DATABASE_URL=postgres://db/opencorpora?user=postgres
+      - RAILS_SERVE_STATIC_FILES=1
+      - DOCKER=1
+      - ELASTIC_APM_ACTIVE=false
+    build: .
+    ports:
+      - "3001:3000"
+    depends_on:
+      - db
+    volumes:
+      - ./db/backups/production:/app/db/backups/production
+volumes:
+  db:

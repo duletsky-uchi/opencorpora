@@ -215,6 +215,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
+    rack-cors (1.1.1)
+      rack (>= 2.0.0)
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -408,6 +410,7 @@ DEPENDENCIES
   pry (~> 0.13.1)
   pry-byebug (~> 3.9.0)
   puma (~> 4.1)
+  rack-cors
   rails (~> 6.0.3, >= 6.0.3.4)
   rspec-its
   rspec-json_expectations
