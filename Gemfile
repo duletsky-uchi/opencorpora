@@ -89,7 +89,8 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'pg', '~> 1.0'
-gem 'activerecord-import' # batch insert
 
-gem 'rack-cors', require: 'rack/cors' # работа с CORS
+gem 'activerecord-import' # batch insert
 gem 'active_model_serializers'
+gem 'rack-cors', require: 'rack/cors' # работа с CORS
+gem 'slim-rails' # шаблонизатор
