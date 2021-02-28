@@ -46,8 +46,6 @@ default: &default
   prepared_statements: false
   advisory_locks: false
 
-production:
-  <<: *default
 development:
   <<: *default
 
@@ -59,3 +57,6 @@ test:
   <%= "password: #{uri_query_test['password']}" if uri_query_test['password'] %>
   <%= "host: #{uri_test.host}" if uri_test.host && uri_test.host != "localhost" %>
   <%= "port: #{uri_test.port}" if uri_test.port %>
+
+production:
+  <<: *default

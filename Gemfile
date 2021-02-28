@@ -92,3 +92,4 @@ gem 'pg', '~> 1.0'
 gem 'activerecord-import' # batch insert
 
 gem 'rack-cors', require: 'rack/cors' # работа с CORS
+gem 'active_model_serializers'

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :ping, only: :index
       resources :lemmas, only: :show
+      resources :lemma_texts, only: :show
 
       get 'gramemes_by_form/:form' => 'gramemes_by_form#show'
       get 'gramemes_by_text/:text' => 'gramemes_by_text#show'
