@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :lemma_texts, only: :show
       resources :lemma_forms, only: :show
       resources :grammemes, only: :show
+      resources :restrictions, only: :show
 
       get 'gramemes_by_form/:form' => 'gramemes_by_form#show'
       get 'gramemes_by_text/:text' => 'gramemes_by_text#show'
