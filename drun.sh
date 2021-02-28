@@ -23,5 +23,6 @@ echo -e "\n-------------------"
 
 #open ${URL}/README_md.html
 curl http://localhost:3001/ping.json
+echo -e "\n-------------------"
 
 docker-compose logs -f
