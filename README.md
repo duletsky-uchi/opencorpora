@@ -62,3 +62,39 @@ WHERE f.text = 'бежала'
   AND lg.grammeme_id = g.id 
 group by f.lemma_id, g.name, g.alias, g.description
 ```
+
+```postgresql
+-- случайные словоформы в количестве
+select text
+from lemma_forms f
+where true
+--and text like 'заштри%'
+ ORDER BY RANDOM()
+limit 1000
+```
+
+```postgresql
+-- взять грамемы форм по её id
+select g.*
+from lemma_forms f, lemma_grammemes lg, grammemes g
+where f.id = 6999337
+and f.id = lg.kind_id
+and lg.kind_type = 'LemmaForm'
+```
+
+```postgresql
+-- взять тексты всех форм грамемы
+select f.text
+from lemmas l, lemma_texts t, lemma_forms f
+where l.id = t.lemma_id
+and t.text = 'ёж'
+and f.lemma_id = l.id
+```
+
+проверка файла со словами
+одна строка - одно слово
+начинать со строки 1_208_000
+```shell
+File.open( '_backup/form_texts.csv').each_with_index {|f, j| next if j < 1208000; puts f if Obscene.is?
+(f); puts j if j % 1000 == 0 }
+```

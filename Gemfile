@@ -94,3 +94,6 @@ gem 'activerecord-import' # batch insert
 gem 'active_model_serializers'
 gem 'rack-cors', require: 'rack/cors' # работа с CORS
 gem 'slim-rails' # шаблонизатор
+
+# gem 'trigram' # подобие текстов по триграммам
+gem 'text' # A collection of text algorithms - soundex, livingstone
