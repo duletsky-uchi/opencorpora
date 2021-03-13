@@ -1,5 +1,16 @@
 # Opencorps
 
+Импорт словоформ русского языка в БД Postgres.
+Сейчас в нем
+- 5М словоформ 
+- 400К лемм
+- 14М определений грамем для словоформ и лемм 
+
+Может быть полезно для:
+- определния грамем слово (бежала -> глагол, прошеднее время, ед.ч. одуш)
+- подбору по грамемам слов (глагол, прошеднее время, ед.ч. -> стояла, смотрела, ...)
+- определения для словоформы леммы
+
 - [словарь словоформ русского языка](http://opencorpora.org/dict.php)
 - [gem 'activerecord-import'](https://github.com/zdennis/activerecord-import) - batch insert in Postgres
 - [о работе с большими xml](https://www.viget.com/articles/parsing-big-xml-files-with-nokogiri/)
