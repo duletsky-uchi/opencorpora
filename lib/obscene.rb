@@ -3,7 +3,7 @@
 # прекрасный обзор с мимногоязычными мини-словарями
 # https://writers.fandom.com/ru/wiki/Обсценная_лексика
 #
-# интересные образцы мата XIX века
+# интересные образцы лексики XIX века
 # http://plutser.ru/slovari_mata/slovar1865/
 module Obscene
   require 'text'
@@ -15,6 +15,9 @@ module Obscene
   CHARS_ON_ERROR = 6
   # макс.длина слов которые не проверяются на подобие
   SHORT_WORD_LENGTH = 2
+
+  # макс.длина слов которые не проверяются на подобие
+  TRIGRAM_MIN = 0.54
 
   def self.stop_words
     @stop_words ||= %w[
@@ -962,24 +965,24 @@ module Obscene
         шамотра
         шараёбиться
         шароебиться
-шлюх
-шлюха
-шлюхе
-шлюхи
-шлюху
-шлюхам
-шлюхах
-шлюхой
-шлюхою
-шлюхами
-шлюшка
-шлюшкам
-шлюшках
-шлюшками
+        шлюх
+        шлюха
+        шлюхе
+        шлюхи
+        шлюху
+        шлюхам
+        шлюхах
+        шлюхой
+        шлюхою
+        шлюхами
+        шлюшка
+        шлюшкам
+        шлюшках
+        шлюшками
         шмара
-шмарам
-шмарах
-шмарами
+        шмарам
+        шмарах
+        шмарами
         шмарина
         шмонька
         шпили-вили
@@ -1020,8 +1023,6 @@ module Obscene
   # максимальное число ошибок в слове, которое позволяет его еще идентифицировать
   # при 2 'пример' == 'трипер'
   def self.word_normalize(word)
-    # .tr('ёйащ', 'еоош')
-    # .gsub(/(.)\1/, '\1').gsub(/(.)\1/, '\1')
     word
       .downcase
       .downcase.squeeze('А-Яа-яA-z')
@@ -1033,22 +1034,11 @@ module Obscene
     return false if wild_word.size <= SHORT_WORD_LENGTH
 
     word = word_normalize(wild_word)
-    # puts "#{__FILE__}, #{__LINE__} |(((( normal_word=#{word}"
-    # stop = stop_words.find { |stop| similarity(word, stop) && distance(word, stop) }
-    # puts "#{__FILE__}, #{__LINE__} |))))  stop=#{stop}"
 
     !stop_words
        .detect { |stop| distance(word, stop) && similarity(word, stop) }
        .nil?
   end
-
-  # private
-
-  # def self.similarity(_normal_word, _stop)
-  #   true
-  #   # @white ||= Text::WhiteSimilarity.new
-  #   # @white.similarity(normal_word, stop) >= 0.8
-  # end
 
   # https://pganalyze.com/blog/similarity-in-postgres-and-ruby-on-rails-using-trigrams
   def self.trigram(word)
@@ -1073,7 +1063,7 @@ module Obscene
     # Find unique total trigrams in both arrays
     all_size = (tri1 | tri2).size
 
-    same_size.to_f / all_size > 0.54
+    same_size.to_f / all_size > TRIGRAM_MIN
   end
 
   def self.distance(normal_word, stop)
