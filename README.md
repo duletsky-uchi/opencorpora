@@ -74,3 +74,13 @@ WHERE f.text = 'бежала'
   AND lg.grammeme_id = g.id 
 group by f.lemma_id, g.name, g.alias, g.description
 ```
+
+## Todo
+
+- docker-compose 
+- генерация текста по наборам граммем
+- импорт не из файла, а сразу с сайта OpenCorpora
+- на index счетчики числа лемм, словоформ, грамем
+- на index формы запросов к api
+- heroku
+- доки на api в public
