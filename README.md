@@ -11,6 +11,7 @@
 - подбору по грамемам слов (глагол, прошеднее время, ед.ч. -> стояла, смотрела, ...)
 - определения для словоформы леммы
 
+Ссылки:
 - [словарь словоформ русского языка](http://opencorpora.org/dict.php)
 - [gem 'activerecord-import'](https://github.com/zdennis/activerecord-import) - batch insert in Postgres
 - [о работе с большими xml](https://www.viget.com/articles/parsing-big-xml-files-with-nokogiri/)
